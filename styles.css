@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+    color: #1db954;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    color: #1db954;
+    text-decoration: none;
+}
+
+input:focus {
+    border-color: #1db954;
+}
+
+select {
+    outline-color: #1db954;
+}
+
+select:active,
+select:hover {
+    outline-color: #1db954;
+}
+
+button {
+    background-color: white;
+    outline-color: #1db954;
+}
+
+#body-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+#search-container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    padding: 30px;
+    z-index: 100;
+}
+
+#results-text {
+    position: absolute;
+    top: 60px;
+}
+
+#results-container {
+    position: absolute;
+    top: 100px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0);
+}
+
+.one-of-twenty-container {
+    display: flex;
+    align-items: center;
+    width: 80vw;
+    padding: 20px;
+    height: 150px;
+}
+
+.one-of-twenty-container:nth-child(odd) {
+    background-color: black;
+}
+
+.one-of-twenty-container:nth-child(even) {
+    background-color: white;
+}
+
+.results-albums-artists img {
+    width: 100px;
+    height: 100px;
+    filter: grayscale(100%);
+}
+
+.results-name {
+    padding: 30px;
+}
+
+.more-button-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
