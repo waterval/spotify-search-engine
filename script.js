@@ -22,9 +22,14 @@
         albumOrArtist = $(".artist-or-album").val();
         resultsHtml = "";
         displayHtml = "";
+        nextUrl = "";
         $("#results-container").html(displayHtml);
+        ajaxRequest();
+    }
+
+    function ajaxRequest() {
         $.ajax({
-            url: url,
+            url: nextUrl || url,
             data: {
                 query: userInput,
                 type: albumOrArtist
@@ -42,24 +47,12 @@
 
     $(document).on("click", $(".more-button"), function() {
         $("#results-container").remove(".more-button-container");
-        $.ajax({
-            url: nextUrl,
-            data: {
-                query: userInput,
-                type: albumOrArtist
-            },
-            success: function(response) {
-                response = response.artists || response.albums;
-                getResultsHtml(response);
-                getNextUrl(response);
-            }
-        });
+        ajaxRequest();
     });
 
     function getResultsHtml(response) {
-        let imageUrl,
+        var imageUrl,
             buttonHtml = "";
-
         if (response.items.length == 0) {
             resultsHtml =
                 "There are no results that match your search. Please try again.";
@@ -113,19 +106,7 @@
             $(document).scrollTop() + $(window).height() >=
             $(document).height() - 100;
         if (hasReachedBottom) {
-            $.ajax({
-                url: nextUrl,
-                data: {
-                    query: userInput,
-                    type: albumOrArtist
-                },
-                success: function(response) {
-                    response = response.artists || response.albums;
-                    getResultsHtml(response);
-                    getNextUrl(response);
-                    checkScrollPosition();
-                }
-            });
+            ajaxRequest();
         } else {
             setTimeout(checkScrollPosition, 1000);
         }
