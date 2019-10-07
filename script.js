@@ -74,11 +74,11 @@
                 foundMusicHtml +=
                     '<div class="one-of-twenty-container"><div class="results-albums-artists"><a href="' +
                     artistUrl +
-                    '"><img src="' +
+                    '" target="_blank"><img src="' +
                     imageUrl +
                     '"></a></div><div class="results-name"><a href="' +
                     artistUrl +
-                    '">' +
+                    '" target="_blank">' +
                     artistAlbumName +
                     "</a></div></div>";
             }
