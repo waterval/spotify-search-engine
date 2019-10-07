@@ -2,13 +2,8 @@
     var nextUrl, hasReachedBottom;
     var resultsHtml,
         displayHtml,
-        imageUrl,
-        buttonHtml,
         userInput,
         albumOrArtist = "";
-    var resultsText = $("#results-text");
-    var displayResults = $("#results-container");
-    var moreButton = $(".more-button");
     var url = "https://elegant-croissant.glitch.me/spotify";
     var useInfiniteScroll = "?scroll=infinite";
 
@@ -24,12 +19,10 @@
 
     function getNewResults() {
         userInput = $('input[name="user-input"]').val();
-        console.log("userInput: ", userInput);
         albumOrArtist = $(".artist-or-album").val();
-        console.log("albumOrArtist: ", albumOrArtist);
         resultsHtml = "";
         displayHtml = "";
-        displayResults.html(displayHtml);
+        $("#results-container").html(displayHtml);
         $.ajax({
             url: url,
             data: {
@@ -38,8 +31,6 @@
             },
             success: function(response) {
                 response = response.artists || response.albums;
-                console.log("response: ", response);
-                console.log("response.items: ", response.items);
                 getResultsHtml(response);
                 getNextUrl(response);
                 if (useInfiniteScroll == location.search) {
@@ -49,8 +40,8 @@
         });
     }
 
-    $(document).on("click", moreButton, function() {
-        $(displayResults).remove(".more-button-container");
+    $(document).on("click", $(".more-button"), function() {
+        $("#results-container").remove(".more-button-container");
         $.ajax({
             url: nextUrl,
             data: {
@@ -66,13 +57,16 @@
     });
 
     function getResultsHtml(response) {
+        let imageUrl,
+            buttonHtml = "";
+
         if (response.items.length == 0) {
             resultsHtml =
                 "There are no results that match your search. Please try again.";
-            resultsText.text(resultsHtml);
+            $("#results-text").text(resultsHtml);
         } else {
             resultsHtml = response.total + " results for '" + userInput + "':";
-            resultsText.text(resultsHtml);
+            $("#results-text").text(resultsHtml);
             var i = 0;
             for (i = 0; i < response.items.length; i++) {
                 if (response.items.length >= 20) {
@@ -101,21 +95,17 @@
                     "</a></div></div>";
             }
 
-            displayResults.html(displayHtml);
+            $("#results-container").html(displayHtml);
             if (i == 20 && !useInfiniteScroll == location.search) {
-                displayResults.append(buttonHtml);
+                $("#results-container").append(buttonHtml);
             }
-            console.log("buttonHtml: ", buttonHtml);
         }
     }
 
     function getNextUrl(response) {
-        console.log("response in getNextUrl:", response);
         nextUrl =
             response.next &&
             response.next.replace("https://api.spotify.com/v1/search", url);
-        console.log("response.next after replace: ", response.next);
-        console.log("nextUrl inside getNextUrl:", nextUrl);
     }
 
     function checkScrollPosition() {
