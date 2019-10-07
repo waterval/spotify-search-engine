@@ -1,7 +1,7 @@
 (function() {
-    var nextUrl, hasReachedBottom;
     var resultsHtml,
         displayHtml,
+        nextUrl,
         userInput,
         albumOrArtist = "";
     var url = "https://elegant-croissant.glitch.me/spotify";
@@ -23,7 +23,6 @@
         resultsHtml = "";
         displayHtml = "";
         nextUrl = "";
-        $("#results-container").html(displayHtml);
         ajaxRequest();
     }
 
@@ -41,21 +40,17 @@
                 if (useInfiniteScroll == location.search) {
                     checkScrollPosition();
                 }
+                console.log("Ajax Request triggers");
             }
         });
     }
-
-    $(document).on("click", $(".more-button"), function() {
-        $("#results-container").remove(".more-button-container");
-        ajaxRequest();
-    });
 
     function getResultsHtml(response) {
         var imageUrl,
             buttonHtml = "";
         if (response.items.length == 0) {
             resultsHtml =
-                "There are no results that match your search. Please try again.";
+                "There are no results that match your search. Please try again with another search query.";
             $("#results-text").text(resultsHtml);
         } else {
             resultsHtml = response.total + " results for '" + userInput + "':";
@@ -87,8 +82,8 @@
                     artistAlbumName +
                     "</a></div></div>";
             }
-
             $("#results-container").html(displayHtml);
+            console.log("displayHtml in getResultsHtml: ", displayHtml);
             if (i == 20 && !useInfiniteScroll == location.search) {
                 $("#results-container").append(buttonHtml);
             }
@@ -102,7 +97,7 @@
     }
 
     function checkScrollPosition() {
-        hasReachedBottom =
+        var hasReachedBottom =
             $(document).scrollTop() + $(window).height() >=
             $(document).height() - 100;
         if (hasReachedBottom) {
@@ -111,4 +106,10 @@
             setTimeout(checkScrollPosition, 1000);
         }
     }
+
+    $(document).on("click", ".more-button", function() {
+        $("#results-container").remove(".more-button-container");
+        console.log("more button triggers");
+        ajaxRequest();
+    });
 })();
