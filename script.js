@@ -23,6 +23,7 @@
         searchResultsText = "";
         foundMusicHtml = "";
         moreResultsUrl = "";
+        $("#results-container").html(foundMusicHtml);
         ajaxRequest();
     }
 
@@ -59,7 +60,7 @@
             for (i = 0; i < response.items.length; i++) {
                 if (response.items.length >= 20) {
                     buttonHtml =
-                        '<div class="more-button-container hide"><button class="more-button hide">Show more results</button></div>';
+                        '<div class="more-button-container"><button class="more-button">Show more results</button></div>';
                 }
 
                 if (response.items[i].images.length === 0) {
