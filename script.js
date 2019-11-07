@@ -93,7 +93,10 @@
     function getNextUrl(response) {
         moreResultsUrl =
             response.next &&
-            response.next.replace("https://api.spotify.com/v1/search", url);
+            response.next.replace(
+                "https://api.spotify.com/v1/search",
+                firstResultsUrl
+            );
     }
 
     function checkScrollPosition() {
